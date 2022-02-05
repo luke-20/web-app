@@ -1,7 +1,51 @@
 services:
-    app:
-      build:
-        context: .
-      container_name: web-app
+  app:
+    build:
+      context: .
+    restart: always
+    container_name: web-app
+    ports:
+      - 80:80
+    networks:
+      mynet:
+        ipv4_address: 192.168.55.8
+
+
+  db:
+    image: mariadb:10.4
+    restart: always
+    environment:
+      MARIADB_USER: root
+      MARIADB_PASSWORD: root
+      MARIADB_HOST: db
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_PORT: 3306
+    ports:
+      - 3306:3306
+    networks:
+      mynet:
+        ipv4_address: 192.168.55.9
+    volumes:
+      - web-app-volume:/var/lib/mysql
+          
+  adminer:
+      image: adminer
+      restart: always
       ports:
-        - 80:80
+        - 82:8080
+      networks:
+        mynet:
+         ipv4_address: 192.168.55.10
+
+ 
+volumes:
+    web-app-volume:
+
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+     # driver: default
+      config:
+        - subnet: 192.168.55.0/24
+          gateway: 192.168.55.1
