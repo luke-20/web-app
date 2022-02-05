@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/luke-20/web-app/database"
+	"github.com/luke-20/web-app/httpserver"
 )
 
 func main() {
@@ -13,6 +13,6 @@ func main() {
 	// server.InitServer()
 	// server.RunEndpoints()
 
-	// httpserver.Hlavni()
-	database.Hlav()
+	httpserver.Hlavni()
+	// database.Hlav()
 }
